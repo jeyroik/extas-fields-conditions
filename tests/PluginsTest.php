@@ -57,7 +57,7 @@ class PluginsTest extends TestCase
         $this->extRepo->create(new Extension([
             Extension::FIELD__CLASS => ExtensionFieldConditions::class,
             Extension::FIELD__INTERFACE => IExtensionFieldConditions::class,
-            Extension::SUBJECT => 'extas.field',
+            Extension::FIELD__SUBJECT => 'extas.field',
             Extension::FIELD__METHODS => [
                 "getBeforeCreate", "getBeforeUpdate", "getBeforeDelete",
                 "getAfterCreate", "getAfterUpdate", "getAfterDelete"
