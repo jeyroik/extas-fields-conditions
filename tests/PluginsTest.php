@@ -56,7 +56,7 @@ class PluginsTest extends TestCase
         $this->pluginRepo = new PluginRepository();
         $this->addReposForExt([
             'fieldRepository' => FieldRepository::class,
-            IConditionRepository::class => ConditionRepository::class
+            'conditionRepository' => ConditionRepository::class
         ]);
         $this->createRepoExt(['fieldRepository', 'conditionRepository']);
         $this->extRepo->create(new Extension([
