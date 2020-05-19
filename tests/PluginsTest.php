@@ -4,6 +4,7 @@ namespace tests;
 use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
 
+use extas\components\plugins\TSnuffPlugins;
 use extas\components\conditions\TSnuffConditions;
 use extas\components\extensions\Extension;
 use extas\components\extensions\ExtensionRepository;
@@ -37,6 +38,7 @@ class PluginsTest extends TestCase
     use TSnuffExtensions;
     use TSnuffItems;
     use TSnuffConditions;
+    use TSnuffPlugins;
 
     protected IRepository $pluginRepo;
     protected IRepository $extRepo;
@@ -68,6 +70,7 @@ class PluginsTest extends TestCase
 
     protected function tearDown(): void
     {
+        $this->deleteSnuffPlugins();
         $this->deleteSnuffExtensions();
         $this->deleteSnuffConditions();
         $this->deleteSnuffItems(['name' => 'test']);
@@ -86,10 +89,7 @@ class PluginsTest extends TestCase
 
     public function testBeforeCreate()
     {
-        $this->pluginRepo->create(new Plugin([
-            Plugin::FIELD__CLASS => PluginFieldCreateBefore::class,
-            Plugin::FIELD__STAGE => 'test.create.before'
-        ]));
+        $this->createSnuffPlugin(PluginFieldCreateBefore::class, ['test.create.before']);
         $this->createField(ExtensionFieldConditions::FIELD__BEFORE_CREATE);
 
         $item = $this->createSnuffItem(['name' => 'test']);
@@ -102,10 +102,7 @@ class PluginsTest extends TestCase
 
     public function testAfterCreate()
     {
-        $this->pluginRepo->create(new Plugin([
-            Plugin::FIELD__CLASS => PluginFieldCreateAfter::class,
-            Plugin::FIELD__STAGE => 'test.create.after'
-        ]));
+        $this->createSnuffPlugin(PluginFieldCreateAfter::class, ['test.create.after']);
         $this->createField(ExtensionFieldConditions::FIELD__AFTER_CREATE);
 
         $item = $this->createSnuffItem(['name' => 'test']);
@@ -118,10 +115,7 @@ class PluginsTest extends TestCase
 
     public function testBeforeUpdate()
     {
-        $this->pluginRepo->create(new Plugin([
-            Plugin::FIELD__CLASS => PluginFieldUpdateBefore::class,
-            Plugin::FIELD__STAGE => 'test.update.before'
-        ]));
+        $this->createSnuffPlugin(PluginFieldUpdateBefore::class, ['test.update.before']);
         $this->createField(ExtensionFieldConditions::FIELD__BEFORE_UPDATE);
 
         $item = $this->createSnuffItem(['name' => 'test']);
@@ -134,10 +128,7 @@ class PluginsTest extends TestCase
 
     public function testAfterUpdate()
     {
-        $this->pluginRepo->create(new Plugin([
-            Plugin::FIELD__CLASS => PluginFieldUpdateAfter::class,
-            Plugin::FIELD__STAGE => 'test.update.after'
-        ]));
+        $this->createSnuffPlugin(PluginFieldUpdateAfter::class, ['test.update.after']);
         $this->createField(ExtensionFieldConditions::FIELD__AFTER_UPDATE);
 
         $item = $this->createSnuffItem(['name' => 'test']);
@@ -150,31 +141,25 @@ class PluginsTest extends TestCase
 
     public function testBeforeDelete()
     {
-        $this->pluginRepo->create(new Plugin([
-            Plugin::FIELD__CLASS => PluginFieldDeleteBefore::class,
-            Plugin::FIELD__STAGE => 'test.delete.before'
-        ]));
+        $this->createSnuffPlugin(PluginFieldDeleteBefore::class, ['test.delete.before']);
         $this->createField(ExtensionFieldConditions::FIELD__BEFORE_DELETE, 'not_empty');
 
         $item = $this->createSnuffItem(['name' => 'test']);
 
         $this->expectExceptionMessage('Condition failed');
-        $this->snuffRepository()->delete($item);
+        $this->snuffRepository()->delete([], $item);
     }
 
     public function testAfterDelete()
     {
-        $this->pluginRepo->create(new Plugin([
-            Plugin::FIELD__CLASS => PluginFieldDeleteAfter::class,
-            Plugin::FIELD__STAGE => 'test.delete.after'
-        ]));
+        $this->createSnuffPlugin(PluginFieldDeleteAfter::class, ['test.delete.after']);
         $this->createField(ExtensionFieldConditions::FIELD__AFTER_DELETE, 'not_empty');
 
         $item = $this->createSnuffItem(['name' => 'test']);
         $this->snuffRepository()->create($item);
 
         $this->expectExceptionMessage('Condition failed');
-        $this->snuffRepository()->delete($item);
+        $this->snuffRepository()->delete([], $item);
     }
 
     /**

@@ -1,7 +1,6 @@
 <?php
 namespace extas\components\plugins\fields;
 
-use extas\components\plugins\Plugin;
 use extas\components\values\RepositoryValue;
 use extas\interfaces\conditions\IConditionParameter;
 use extas\interfaces\fields\IField;
@@ -10,22 +9,21 @@ use extas\interfaces\IItem;
 use extas\interfaces\values\IRepositoryValue;
 
 /**
- * Class PluginFieldCheck
+ * Class TPluginFieldCheck
  *
+ * @property string $checkName
  * @method fieldRepository()
  *
  * @package extas\components\plugins\fields
  * @author jeyroik <jeyroik@gmail.com>
  */
-class PluginFieldCheck extends Plugin
+trait TPluginFieldCheck
 {
-    protected string $checkName = '';
-
     /**
      * @param IItem|IHasValue $item
      * @throws \Exception
      */
-    public function __invoke(IItem $item)
+    public function check(IItem $item)
     {
         /**
          * @var IField[] $fields

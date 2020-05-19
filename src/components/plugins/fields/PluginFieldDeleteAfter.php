@@ -7,7 +7,7 @@ namespace extas\components\plugins\fields;
  * @package extas\components\plugins\fields
  * @author jeyroik <jeyroik@gmail.com>
  */
-class PluginFieldDeleteAfter extends PluginFieldCheck
+class PluginFieldDeleteAfter extends PluginFieldUpdateAfter
 {
     protected string $checkName = 'getAfterDelete';
 }
