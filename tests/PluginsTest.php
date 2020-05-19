@@ -2,6 +2,8 @@
 namespace tests;
 
 use Dotenv\Dotenv;
+use extas\components\conditions\ConditionRepository;
+use extas\interfaces\conditions\IConditionRepository;
 use PHPUnit\Framework\TestCase;
 
 use extas\components\plugins\TSnuffPlugins;
@@ -53,9 +55,10 @@ class PluginsTest extends TestCase
         $this->fieldRepo = new FieldRepository();
         $this->pluginRepo = new PluginRepository();
         $this->addReposForExt([
-            'fieldRepository' => FieldRepository::class
+            'fieldRepository' => FieldRepository::class,
+            IConditionRepository::class => ConditionRepository::class
         ]);
-        $this->createRepoExt(['fieldRepository']);
+        $this->createRepoExt(['fieldRepository', 'conditionRepository']);
         $this->extRepo->create(new Extension([
             Extension::FIELD__CLASS => ExtensionFieldConditions::class,
             Extension::FIELD__INTERFACE => IExtensionFieldConditions::class,
@@ -76,7 +79,7 @@ class PluginsTest extends TestCase
         $this->deleteSnuffItems(['name' => 'test']);
 
         $this->extRepo->delete([Extension::FIELD__CLASS => ExtensionFieldConditions::FIELD__CLASS]);
-        $this->fieldRepo->delete([Field::FIELD__NAME => 'test']);
+        $this->fieldRepo->delete([Field::FIELD__NAME => 'name']);
         $this->pluginRepo->delete([Plugin::FIELD__CLASS => [
             PluginFieldDeleteAfter::class,
             PluginFieldDeleteBefore::class,
