@@ -1,0 +1,14 @@
+{
+  "name": "extas/field-conditions",
+  "extensions": [
+    {
+      "class": "extas\\components\\extensions\\fields\\ExtensionFieldConditions",
+      "interface": "extas\\interfaces\\extensions\\fields\\ExtensionFieldConditions",
+      "subject": "extas.field",
+      "methods": [
+        "getBeforeCreate", "getBeforeUpdate", "getBeforeDelete",
+        "getAfterCreate", "getAfterUpdate", "getAfterDelete"
+      ]
+    }
+  ]
+}
