@@ -110,8 +110,6 @@ class PluginsTest extends TestCase
 
         $item = $this->createSnuffItem(['name' => 'test__create_after']);
 
-        $this->snuffRepository()->create($item);
-
         $this->expectExceptionMessage('Condition failed');
         $this->snuffRepository()->create($item);
     }
