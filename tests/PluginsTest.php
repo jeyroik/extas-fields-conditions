@@ -76,7 +76,7 @@ class PluginsTest extends TestCase
         $this->deleteSnuffPlugins();
         $this->deleteSnuffExtensions();
         $this->deleteSnuffConditions();
-        $this->deleteSnuffItems(['name' => 'test']);
+        $this->deleteSnuffItems();
 
         $this->extRepo->delete([Extension::FIELD__CLASS => ExtensionFieldConditions::FIELD__CLASS]);
         $this->fieldRepo->delete([Field::FIELD__NAME => 'name']);
@@ -95,7 +95,7 @@ class PluginsTest extends TestCase
         $this->createSnuffPlugin(PluginFieldCreateBefore::class, ['extas.snuff_items.create.before']);
         $this->createField(ExtensionFieldConditions::FIELD__BEFORE_CREATE);
 
-        $item = $this->createSnuffItem(['name' => 'test']);
+        $item = $this->createSnuffItem(['name' => 'test__create_before']);
 
         $this->snuffRepository()->create($item);
 
@@ -108,7 +108,7 @@ class PluginsTest extends TestCase
         $this->createSnuffPlugin(PluginFieldCreateAfter::class, ['extas.snuff_items.create.after']);
         $this->createField(ExtensionFieldConditions::FIELD__AFTER_CREATE);
 
-        $item = $this->createSnuffItem(['name' => 'test']);
+        $item = $this->createSnuffItem(['name' => 'test__create_after']);
 
         $this->snuffRepository()->create($item);
 
@@ -121,7 +121,7 @@ class PluginsTest extends TestCase
         $this->createSnuffPlugin(PluginFieldUpdateBefore::class, ['extas.snuff_items.update.before']);
         $this->createField(ExtensionFieldConditions::FIELD__BEFORE_UPDATE);
 
-        $item = $this->createSnuffItem(['name' => 'test']);
+        $item = $this->createSnuffItem(['name' => 'test__update_before']);
 
         $this->snuffRepository()->create($item);
 
@@ -134,7 +134,7 @@ class PluginsTest extends TestCase
         $this->createSnuffPlugin(PluginFieldUpdateAfter::class, ['extas.snuff_items.update.after']);
         $this->createField(ExtensionFieldConditions::FIELD__AFTER_UPDATE);
 
-        $item = $this->createSnuffItem(['name' => 'test']);
+        $item = $this->createSnuffItem(['name' => 'test__update_after']);
 
         $this->snuffRepository()->create($item);
 
@@ -147,7 +147,7 @@ class PluginsTest extends TestCase
         $this->createSnuffPlugin(PluginFieldDeleteBefore::class, ['extas.snuff_items.delete.before']);
         $this->createField(ExtensionFieldConditions::FIELD__BEFORE_DELETE, 'in');
 
-        $item = $this->createSnuffItem(['name' => 'test']);
+        $item = $this->createSnuffItem(['name' => 'test__delete_before']);
 
         $this->expectExceptionMessage('Condition failed');
         $this->snuffRepository()->delete([], $item);
@@ -158,7 +158,7 @@ class PluginsTest extends TestCase
         $this->createSnuffPlugin(PluginFieldDeleteAfter::class, ['extas.snuff_items.delete.after']);
         $this->createField(ExtensionFieldConditions::FIELD__AFTER_DELETE, 'in');
 
-        $item = $this->createSnuffItem(['name' => 'test']);
+        $item = $this->createSnuffItem(['name' => 'test__delete_after']);
         $this->snuffRepository()->create($item);
 
         $this->expectExceptionMessage('Condition failed');
