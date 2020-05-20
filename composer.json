@@ -3,7 +3,8 @@
   "description": "Fields conditions for Extas",
   "require": {
     "jeyroik/extas-fields": "0.*",
-    "jeyroik/extas-values-repository-items": "0.*"
+    "jeyroik/extas-values-repository-items": "0.*",
+    "jeyroik/extas-conditions": "0.*"
   },
   "require-dev": {
     "phpunit/phpunit": "^9",
