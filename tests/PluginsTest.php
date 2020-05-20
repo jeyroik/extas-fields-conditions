@@ -73,21 +73,13 @@ class PluginsTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->deleteSnuffPlugins();
-        $this->deleteSnuffExtensions();
-        $this->deleteSnuffConditions();
-        $this->deleteSnuffItems();
-
         $this->extRepo->delete([Extension::FIELD__CLASS => ExtensionFieldConditions::class]);
         $this->fieldRepo->delete([Field::FIELD__NAME => 'name']);
-        $this->pluginRepo->delete([Plugin::FIELD__CLASS => [
-            PluginFieldDeleteAfter::class,
-            PluginFieldDeleteBefore::class,
-            PluginFieldCreateAfter::class,
-            PluginFieldCreateBefore::class,
-            PluginFieldUpdateAfter::class,
-            PluginFieldUpdateBefore::class
-        ]]);
+
+        $this->deleteSnuffPlugins();
+        $this->deleteSnuffItems();
+        $this->deleteSnuffConditions();
+        $this->deleteSnuffExtensions();
     }
 
     public function testBeforeCreate()
