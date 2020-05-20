@@ -20,11 +20,15 @@ use extas\interfaces\values\IRepositoryValue;
 trait TPluginFieldCheck
 {
     /**
-     * @param IItem|IHasValue $item
+     * @param IItem|null|IHasValue $item
      * @throws \Exception
      */
-    public function check(IItem $item)
+    public function check(?IItem $item): bool
     {
+        if (!$item) {
+            return false;
+        }
+
         /**
          * @var IField[] $fields
          */
@@ -39,6 +43,8 @@ trait TPluginFieldCheck
                 $this->validateField($field);
             }
         }
+
+        return true;
     }
 
     /**

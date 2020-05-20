@@ -3,6 +3,8 @@ namespace extas\components\plugins\fields;
 
 use extas\components\plugins\Plugin;
 use extas\interfaces\IItem;
+use extas\interfaces\repositories\IRepository;
+use extas\interfaces\stages\IStageUpdateAfter;
 
 /**
  * Class PluginFieldUpdateAfter
@@ -10,7 +12,7 @@ use extas\interfaces\IItem;
  * @package extas\components\plugins\fields
  * @author jeyroik <jeyroik@gmail.com>
  */
-class PluginFieldUpdateAfter extends Plugin
+class PluginFieldUpdateAfter extends Plugin implements IStageUpdateAfter
 {
     use TPluginFieldCheck;
 
@@ -20,10 +22,18 @@ class PluginFieldUpdateAfter extends Plugin
      * @param bool $result
      * @param array $where
      * @param IItem $item
+     * @param IRepository $itemRepository
      * @throws \Exception
      */
-    public function __invoke(bool $result, array $where, IItem $item): void
+    public function __invoke(bool &$result, array $where, IItem $item, IRepository $itemRepository): void
     {
-        $this->check($item);
+        if (empty($where)) {
+            $this->check($item);
+        } else {
+            $items = $itemRepository->all($where);
+            foreach ($items as $itemWhere) {
+                $this->check($itemWhere);
+            }
+        }
     }
 }
