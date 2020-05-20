@@ -78,7 +78,7 @@ class PluginsTest extends TestCase
         $this->deleteSnuffConditions();
         $this->deleteSnuffItems();
 
-        $this->extRepo->delete([Extension::FIELD__CLASS => ExtensionFieldConditions::FIELD__CLASS]);
+        $this->extRepo->delete([Extension::FIELD__CLASS => ExtensionFieldConditions::class]);
         $this->fieldRepo->delete([Field::FIELD__NAME => 'name']);
         $this->pluginRepo->delete([Plugin::FIELD__CLASS => [
             PluginFieldDeleteAfter::class,
