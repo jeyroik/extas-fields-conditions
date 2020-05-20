@@ -21,11 +21,11 @@ class PluginFieldUpdateAfter extends Plugin implements IStageUpdateAfter
     /**
      * @param bool $result
      * @param array $where
-     * @param IItem $item
+     * @param IItem|null $item
      * @param IRepository $itemRepository
      * @throws \Exception
      */
-    public function __invoke(bool &$result, array $where, IItem $item, IRepository $itemRepository): void
+    public function __invoke(bool &$result, array $where, ?IItem $item, IRepository $itemRepository): void
     {
         if (empty($where)) {
             $this->check($item);

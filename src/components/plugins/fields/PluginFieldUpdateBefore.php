@@ -19,12 +19,12 @@ class PluginFieldUpdateBefore extends Plugin implements IStageUpdateBefore
     protected string $checkName = 'getBeforeUpdate';
 
     /**
-     * @param IItem $item
+     * @param IItem|null $item
      * @param array $where
      * @param IRepository $itemRepository
      * @throws \Exception
      */
-    public function __invoke(IItem &$item, array &$where, IRepository $itemRepository): void
+    public function __invoke(?IItem &$item, array &$where, IRepository $itemRepository): void
     {
         if (!empty($where)) {
             $items = $itemRepository->all($where);
