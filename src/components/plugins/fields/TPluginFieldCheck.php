@@ -70,7 +70,7 @@ trait TPluginFieldCheck
     protected function isConditionValid(IConditionParameter $condition, $currentValue)
     {
         $data = $condition->getValue();
-        $data[IRepositoryValue::FIELD__REPLACES] = ['@value' => $currentValue];
+        $data[IRepositoryValue::FIELD__REPLACES] = ['value' => $currentValue];
         $repositoryValue = new RepositoryValue($data);
 
         if ($repositoryValue->isValid()) {

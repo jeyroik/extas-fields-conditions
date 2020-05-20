@@ -145,7 +145,7 @@ class PluginsTest extends TestCase
     public function testBeforeDelete()
     {
         $this->createSnuffPlugin(PluginFieldDeleteBefore::class, ['extas.snuff_items.delete.before']);
-        $this->createField(ExtensionFieldConditions::FIELD__BEFORE_DELETE, 'not_in');
+        $this->createField(ExtensionFieldConditions::FIELD__BEFORE_DELETE, 'in');
 
         $item = $this->createSnuffItem(['name' => 'test']);
 
@@ -156,7 +156,7 @@ class PluginsTest extends TestCase
     public function testAfterDelete()
     {
         $this->createSnuffPlugin(PluginFieldDeleteAfter::class, ['extas.snuff_items.delete.after']);
-        $this->createField(ExtensionFieldConditions::FIELD__AFTER_DELETE, 'not_in');
+        $this->createField(ExtensionFieldConditions::FIELD__AFTER_DELETE, 'in');
 
         $item = $this->createSnuffItem(['name' => 'test']);
         $this->snuffRepository()->create($item);
@@ -169,7 +169,7 @@ class PluginsTest extends TestCase
      * @param string $stage
      * @param string $condition
      */
-    protected function createField(string $stage, string $condition = 'in'): void
+    protected function createField(string $stage, string $condition = 'not_in'): void
     {
         $this->fieldRepo->create(new Field([
             Field::FIELD__NAME => 'name',
