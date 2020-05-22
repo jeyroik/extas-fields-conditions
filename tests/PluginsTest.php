@@ -3,6 +3,7 @@ namespace tests;
 
 use Dotenv\Dotenv;
 use extas\components\conditions\ConditionRepository;
+use extas\components\values\ValueRepository;
 use PHPUnit\Framework\TestCase;
 use extas\components\plugins\TSnuffPlugins;
 use extas\components\conditions\TSnuffConditions;
@@ -53,9 +54,10 @@ class PluginsTest extends TestCase
         $this->pluginRepo = new PluginRepository();
         $this->addReposForExt([
             'fieldRepository' => FieldRepository::class,
-            'conditionRepository' => ConditionRepository::class
+            'conditionRepository' => ConditionRepository::class,
+            'valueRepository' => ValueRepository::class
         ]);
-        $this->createRepoExt(['fieldRepository', 'conditionRepository']);
+        $this->createRepoExt(['fieldRepository', 'conditionRepository', 'valueRepository']);
         $this->extRepo->create(new Extension([
             Extension::FIELD__CLASS => ExtensionFieldConditions::class,
             Extension::FIELD__INTERFACE => IExtensionFieldConditions::class,
