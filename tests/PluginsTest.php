@@ -181,7 +181,9 @@ class PluginsTest extends TestCase
                     IConditionParameter::FIELD__VALUE => [
                         IRepositoryValue::FIELD__REPOSITORY_NAME => 'snuffRepository',
                         IRepositoryValue::FIELD__METHOD => 'all',
-                        IRepositoryValue::FIELD__QUERY => ['name' => '@value'],
+                        IRepositoryValue::FIELD__QUERY => [
+                            'name' => '@' . IExtensionFieldConditions::REPLACE__FIELD_VALUE
+                        ],
                         IRepositoryValue::FIELD__FIELD => 'name'
                     ]
                 ]

@@ -16,6 +16,9 @@ interface IExtensionFieldConditions
     public const FIELD__BEFORE_UPDATE = 'before_update';
     public const FIELD__AFTER_UPDATE = 'after_update';
 
+    public const REPLACE__FIELD_VALUE = 'field_value';
+    public const REPLACE__PARENT = 'parent';
+
     /**
      * @return array
      */

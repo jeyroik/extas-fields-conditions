@@ -3,6 +3,7 @@ namespace extas\components\plugins\fields;
 
 use extas\components\values\WithComplexValue;
 use extas\interfaces\conditions\IConditionParameter;
+use extas\interfaces\extensions\fields\IExtensionFieldConditions;
 use extas\interfaces\fields\IField;
 use extas\interfaces\IHasComplexValue;
 use extas\interfaces\IHasValue;
@@ -92,8 +93,8 @@ trait TPluginFieldCheck
     protected function getReplaces($currentValue): array
     {
         return [
-            'field_value' => $currentValue,
-            'parent' => $this->item
+            IExtensionFieldConditions::REPLACE__FIELD_VALUE => $currentValue,
+            IExtensionFieldConditions::REPLACE__PARENT => $this->item
         ];
     }
 }
