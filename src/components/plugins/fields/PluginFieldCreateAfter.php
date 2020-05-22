@@ -3,6 +3,7 @@ namespace extas\components\plugins\fields;
 
 use extas\components\plugins\Plugin;
 use extas\interfaces\IItem;
+use extas\interfaces\repositories\IRepository;
 use extas\interfaces\stages\IStageCreateAfter;
 
 /**
@@ -20,9 +21,10 @@ class PluginFieldCreateAfter extends Plugin implements IStageCreateAfter
     /**
      * @param IItem $newItem
      * @param IItem|null $sourceItem
+     * @param IRepository $repository
      * @throws \Exception
      */
-    public function __invoke(IItem &$newItem, IItem $sourceItem): void
+    public function __invoke(IItem &$newItem, IItem $sourceItem, IRepository $repository = null): void
     {
         $this->check($newItem);
     }

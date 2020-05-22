@@ -3,6 +3,7 @@ namespace extas\components\plugins\fields;
 
 use extas\components\plugins\Plugin;
 use extas\interfaces\IItem;
+use extas\interfaces\repositories\IRepository;
 use extas\interfaces\stages\IStageCreateBefore;
 
 /**
@@ -19,9 +20,10 @@ class PluginFieldCreateBefore extends Plugin implements IStageCreateBefore
 
     /**
      * @param IItem $newItem
+     * @param IRepository $repository
      * @throws \Exception
      */
-    public function __invoke(IItem &$newItem): void
+    public function __invoke(IItem &$newItem, IRepository $repository = null): void
     {
         $this->check($newItem);
     }
