@@ -3,7 +3,10 @@ namespace tests;
 
 use Dotenv\Dotenv;
 use extas\components\conditions\ConditionRepository;
+use extas\components\values\RepositoryValue;
+use extas\components\values\Value;
 use extas\components\values\ValueRepository;
+use extas\interfaces\values\IValue;
 use PHPUnit\Framework\TestCase;
 use extas\components\plugins\TSnuffPlugins;
 use extas\components\conditions\TSnuffConditions;
@@ -43,6 +46,7 @@ class PluginsTest extends TestCase
     protected IRepository $pluginRepo;
     protected IRepository $extRepo;
     protected IRepository $fieldRepo;
+    protected IRepository $valueRepo;
 
     protected function setUp(): void
     {
@@ -52,6 +56,7 @@ class PluginsTest extends TestCase
         $this->extRepo = new ExtensionRepository();
         $this->fieldRepo = new FieldRepository();
         $this->pluginRepo = new PluginRepository();
+        $this->valueRepo = new ValueRepository();
         $this->addReposForExt([
             'fieldRepository' => FieldRepository::class,
             'conditionRepository' => ConditionRepository::class,
@@ -68,12 +73,14 @@ class PluginsTest extends TestCase
             ]
         ]));
         $this->createSnuffConditions(['in', 'not_in']);
+        $this->valueRepo->create(new Value([Value::FIELD__CLASS => RepositoryValue::class]));
     }
 
     protected function tearDown(): void
     {
         $this->extRepo->delete([Extension::FIELD__CLASS => ExtensionFieldConditions::class]);
         $this->fieldRepo->delete([Field::FIELD__NAME => 'name']);
+        $this->valueRepo->delete([IValue::FIELD__CLASS => RepositoryValue::class]);
 
         $this->deleteSnuffPlugins();
         $this->deleteSnuffItems();
