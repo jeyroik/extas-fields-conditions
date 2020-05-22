@@ -1,6 +1,7 @@
 ![PHP Composer](https://github.com/jeyroik/extas-fields-conditions/workflows/PHP%20Composer/badge.svg?branch=master&event=push)
 ![codecov.io](https://codecov.io/gh/jeyroik/extas-fields-conditions/coverage.svg?branch=master)
 <a href="https://github.com/phpstan/phpstan"><img src="https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat" alt="PHPStan Enabled"></a>
+<a href="https://codeclimate.com/github/jeyroik/extas-fields-conditions/maintainability"><img src="https://api.codeclimate.com/v1/badges/b06b20760abc3a640b16/maintainability" /></a>
 
 # Описание
 
