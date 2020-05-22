@@ -19,7 +19,6 @@ use extas\components\plugins\fields\PluginFieldDeleteAfter;
 use extas\components\plugins\fields\PluginFieldDeleteBefore;
 use extas\components\plugins\fields\PluginFieldUpdateAfter;
 use extas\components\plugins\fields\PluginFieldUpdateBefore;
-use extas\components\plugins\Plugin;
 use extas\components\plugins\PluginRepository;
 use extas\interfaces\conditions\IConditionParameter;
 use extas\interfaces\extensions\fields\IExtensionFieldConditions;
