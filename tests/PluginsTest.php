@@ -3,9 +3,7 @@ namespace tests;
 
 use Dotenv\Dotenv;
 use extas\components\conditions\ConditionRepository;
-use extas\interfaces\conditions\IConditionRepository;
 use PHPUnit\Framework\TestCase;
-
 use extas\components\plugins\TSnuffPlugins;
 use extas\components\conditions\TSnuffConditions;
 use extas\components\extensions\Extension;

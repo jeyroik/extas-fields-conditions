@@ -1,12 +1,13 @@
 <?php
 namespace extas\components\plugins\fields;
 
-use extas\components\values\RepositoryValue;
+use extas\components\values\WithComplexValue;
 use extas\interfaces\conditions\IConditionParameter;
 use extas\interfaces\fields\IField;
+use extas\interfaces\IHasComplexValue;
 use extas\interfaces\IHasValue;
 use extas\interfaces\IItem;
-use extas\interfaces\values\IRepositoryValue;
+use extas\interfaces\values\IValueDispatcher;
 
 /**
  * Class TPluginFieldCheck
@@ -19,6 +20,8 @@ use extas\interfaces\values\IRepositoryValue;
  */
 trait TPluginFieldCheck
 {
+    protected IItem $item;
+
     /**
      * @param IItem|null|IHasValue $item
      * @throws \Exception
@@ -28,6 +31,8 @@ trait TPluginFieldCheck
         if (!$item) {
             return false;
         }
+
+        $this->item = $item;
 
         /**
          * @var IField[] $fields
@@ -63,22 +68,32 @@ trait TPluginFieldCheck
     }
 
     /**
-     * @param IConditionParameter $condition
+     * @param IConditionParameter|IHasComplexValue $condition
      * @param $currentValue
      * @throws \Exception
      */
     protected function isConditionValid(IConditionParameter $condition, $currentValue)
     {
-        $data = $condition->getValue();
-        $data[IRepositoryValue::FIELD__REPLACES] = ['value' => $currentValue];
-        $repositoryValue = new RepositoryValue($data);
-
-        if ($repositoryValue->isValid()) {
-            $condition->setValue($repositoryValue->buildValue());
-        }
+        $complex = new WithComplexValue([
+            WithComplexValue::FIELD__VALUE => $condition->getValue(),
+            IValueDispatcher::FIELD__REPLACES => $this->getReplaces($currentValue)
+        ]);
+        $condition->setValue($complex->buildValue());
 
         if (!$condition->isConditionTrue($currentValue)) {
             throw new \Exception('Condition failed');
         }
+    }
+
+    /**
+     * @param $currentValue
+     * @return array
+     */
+    protected function getReplaces($currentValue): array
+    {
+        return [
+            'field_value' => $currentValue,
+            'parent' => $this->item
+        ];
     }
 }
