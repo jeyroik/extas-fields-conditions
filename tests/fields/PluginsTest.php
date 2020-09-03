@@ -1,8 +1,10 @@
 <?php
-namespace tests;
+namespace tests\fields;
 
 use Dotenv\Dotenv;
+use extas\components\conditions\Condition;
 use extas\components\conditions\ConditionRepository;
+use extas\components\repositories\TSnuffRepositoryDynamic;
 use extas\components\values\RepositoryValue;
 use extas\components\values\Value;
 use extas\components\values\ValueRepository;
@@ -42,28 +44,24 @@ class PluginsTest extends TestCase
     use TSnuffItems;
     use TSnuffConditions;
     use TSnuffPlugins;
-
-    protected IRepository $pluginRepo;
-    protected IRepository $extRepo;
-    protected IRepository $fieldRepo;
-    protected IRepository $valueRepo;
+    use TSnuffRepositoryDynamic;
 
     protected function setUp(): void
     {
         parent::setUp();
         $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
-        $this->extRepo = new ExtensionRepository();
-        $this->fieldRepo = new FieldRepository();
-        $this->pluginRepo = new PluginRepository();
-        $this->valueRepo = new ValueRepository();
-        $this->addReposForExt([
+
+        $this->createSnuffDynamicRepositories([
+            ['conditions', 'name', Condition::class]
+        ]);
+
+        $this->registerSnuffRepos([
             'fieldRepository' => FieldRepository::class,
-            'conditionRepository' => ConditionRepository::class,
             'valueRepository' => ValueRepository::class
         ]);
-        $this->createRepoExt(['fieldRepository', 'conditionRepository', 'valueRepository']);
-        $this->extRepo->create(new Extension([
+
+        $this->createWithSnuffRepo('extensionRepository', new Extension([
             Extension::FIELD__CLASS => ExtensionFieldConditions::class,
             Extension::FIELD__INTERFACE => IExtensionFieldConditions::class,
             Extension::FIELD__SUBJECT => 'extas.field',
@@ -73,19 +71,15 @@ class PluginsTest extends TestCase
             ]
         ]));
         $this->createSnuffConditions(['in', 'not_in']);
-        $this->valueRepo->create(new Value([Value::FIELD__CLASS => RepositoryValue::class]));
+        $this->createWithSnuffRepo(
+            'valueRepository' ,
+            new Value([Value::FIELD__CLASS => RepositoryValue::class])
+        );
     }
 
     protected function tearDown(): void
     {
-        $this->extRepo->delete([Extension::FIELD__CLASS => ExtensionFieldConditions::class]);
-        $this->fieldRepo->delete([Field::FIELD__NAME => 'name']);
-        $this->valueRepo->delete([IValue::FIELD__CLASS => RepositoryValue::class]);
-
-        $this->deleteSnuffPlugins();
-        $this->deleteSnuffItems();
-        $this->deleteSnuffConditions();
-        $this->deleteSnuffExtensions();
+        $this->deleteSnuffDynamicRepositories();
     }
 
     public function testBeforeCreate()
@@ -167,7 +161,7 @@ class PluginsTest extends TestCase
      */
     protected function createField(string $stage, string $condition = 'not_in'): void
     {
-        $this->fieldRepo->create(new Field([
+        $this->createWithSnuffRepo('fieldRepository', new Field([
             Field::FIELD__NAME => 'name',
             Field::FIELD__PARAMETERS => [
                 'subject' => [
